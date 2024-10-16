@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService
 import android.content.Intent
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
+import android.widget.Toast
 
 class AppLockAccessibilityService : AccessibilityService() {
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
@@ -12,6 +13,9 @@ class AppLockAccessibilityService : AccessibilityService() {
             println("Package Name: $packageName")
             if (packageName != null && isAppLocked(packageName)) {
                 Log.d("AppLocker", "Locked app opened: $packageName")
+                Toast.makeText(this, "$packageName is locked", Toast.LENGTH_SHORT).show()
+
+
                 showLockScreen()
             }
         }
@@ -19,6 +23,11 @@ class AppLockAccessibilityService : AccessibilityService() {
 
     override fun onInterrupt() {
         // Handle interrupt
+    }
+
+    override fun onServiceConnected() {
+        super.onServiceConnected()
+        Log.d("AppLocker", "Accessibility service connected")
     }
 
     private fun isAppLocked(packageName: String): Boolean {

@@ -1,0 +1,38 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="Locking">
+        <ListPreference
+            app:defaultValue="swipe"
+            app:entries="@array/locking_type_entries"
+            app:entryValues="@array/locking_type_values"
+            app:key="locking_type"
+            app:title="Locking type"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="App usage warnings">
+
+        <SwitchPreferenceCompat
+            app:key="usage_warning_enabled"
+            app:title="Enable usage warnings" />
+
+        <ListPreference
+            app:defaultValue="linear"
+            app:entries="@array/usage_warning_frequency_entries"
+            app:entryValues="@array/usage_warning_frequency_values"
+            app:key="usage_warning_frequency"
+            app:title="Usage warning frequency"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:dependency="usage_warning_enabled"
+            app:key="usage_warning_threshold"
+            app:title="Usage warning threshold %"
+            app:useSimpleSummaryProvider="true"
+            android:inputType="number"
+            android:defaultValue="60" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
