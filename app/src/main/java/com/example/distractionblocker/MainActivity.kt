@@ -1,7 +1,5 @@
 package com.example.distractionblocker
 
-import android.app.usage.UsageStats
-import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -16,7 +14,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.distractionblocker.databinding.ActivityMainBinding
-import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,37 +34,6 @@ class MainActivity : AppCompatActivity() {
         val appList = getInstalledUserApps(this)
         val appAdapter = AppAdapter(this, appList)
         recyclerView.adapter = appAdapter
-
-        queryUsageStats()
-    }
-
-    private fun queryUsageStats() {
-        val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager;
-        val calendar = Calendar.getInstance();
-        val endTime = calendar.getTimeInMillis();
-        calendar.add(Calendar.DAY_OF_YEAR, -1); // 1 day before now
-        val startTime = calendar.getTimeInMillis();
-
-        val usageStatsList =
-            usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
-
-        if (usageStatsList == null || usageStatsList.isEmpty()) {
-            println("The user may not have granted access to app usage.");
-            requestPermissionsIfNecessary(); // Guide user to enable usage access
-            return;
-        }
-
-        usageStatsList.forEach { usageStats: UsageStats ->
-            val totalTime = usageStats.totalTimeInForeground;
-
-            // Note: This might not be available on all devices
-            val timesOpened =
-                usageStats.javaClass.getDeclaredField("mLaunchCount").getInt(usageStats);
-
-            println("Package Name: ${usageStats.packageName}");
-            println("Foreground Time: $totalTime ms");
-            println("Times Opened: $timesOpened");
-        }
     }
 
     private fun requestPermissionsIfNecessary() {
@@ -78,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
+
         return true
     }
 
@@ -85,8 +52,15 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                // Start the SettingsActivity
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

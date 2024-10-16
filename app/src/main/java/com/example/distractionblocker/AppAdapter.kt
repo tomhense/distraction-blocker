@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class AppAdapter(private val context: Context, private val appList: List<PackageInfo>) :
@@ -18,7 +16,7 @@ class AppAdapter(private val context: Context, private val appList: List<Package
     inner class AppViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val appIcon: ImageView = view.findViewById(R.id.appIcon)
         val appName: TextView = view.findViewById(R.id.appName)
-        val gearIcon: ImageButton = view.findViewById(R.id.gearIcon)
+        val gearIcon: ImageButton = view.findViewById(R.id.appSettings)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppViewHolder {
@@ -43,18 +41,8 @@ class AppAdapter(private val context: Context, private val appList: List<Package
     }
 
     private fun showPopupMenu(view: View) {
-        val popupMenu = PopupMenu(context, view)
-        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_settings -> {
-                    Toast.makeText(context, "Settings clicked", Toast.LENGTH_SHORT).show()
-                    true
-                }
-
-                else -> false
-            }
-        }
-        popupMenu.show()
+        // Show fragment
+        val dialog = AppSettingsDialogFragment()
+        dialog.show((context as MainActivity).supportFragmentManager, "AppSettingsDialogFragment")
     }
 }

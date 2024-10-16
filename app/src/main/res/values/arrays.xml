@@ -1,0 +1,21 @@
+<resources>
+    <string-array name="locking_type_entries">
+        <item>Swipe</item>
+        <item>Pin</item>
+    </string-array>
+
+    <string-array name="locking_type_values">
+        <item>swipe</item>
+        <item>pin</item>
+    </string-array>
+
+    <string-array name="usage_warning_frequency_entries">
+        <item>Linear</item>
+        <item>Exponential</item>
+    </string-array>
+
+    <string-array name="usage_warning_frequency_values">
+        <item>linear</item>
+        <item>exponential</item>
+    </string-array>
+</resources>
